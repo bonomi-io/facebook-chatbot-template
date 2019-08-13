@@ -8,5 +8,5 @@ npm install
 
 ## Credits
 
-Provided by the awesome developers of Bonomi (http://bonomi.io), please feel free to use it!
+Created by Bonomi (http://bonomi.io), please feel free to use it!
 
