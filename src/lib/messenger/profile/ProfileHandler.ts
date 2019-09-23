@@ -1,12 +1,14 @@
 import { IProfile } from "./Profile";
 import * as request from "request-promise-native";
+import MyLogger from "../../logger/logging";
 
 const token = process.env.FACEBOOK_TOKEN;
+const logger = new MyLogger(__filename);
 
 export class ProfileHandler {
 
     public static async getProfile(psid: string): Promise<IProfile> {
-        console.log(`Getting profile of ${psid}...`);
+        logger.info(`Getting profile of ${psid}...`);
         var options = {
             uri: `https://graph.facebook.com/${psid}`,
             qs: {
@@ -17,7 +19,7 @@ export class ProfileHandler {
 
         return await request.get(options)
             .then((result: string) => {
-                console.log(`Profile retrieved ${result}`);
+                logger.info(`Profile retrieved ${result}`);
                 return JSON.parse(result) as IProfile;
             })
             .catch((err: Error) => {

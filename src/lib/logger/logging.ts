@@ -15,11 +15,13 @@ const options = {
 
 export const winstonLogger = createWinstonLogger({
     format: format.combine(
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        format.colorize(),
         format.printf((info: any) => {
             if (info.message instanceof Object || info.message instanceof Array) {
                 info.message = JSON.stringify(info.message);
             }
-            return `level=${info.level} ${info.message}`;
+            return `${info.timestamp} ${info.level} ${info.message}`;
         }),
     ),
     transports: [new transports.Console(options.console)],

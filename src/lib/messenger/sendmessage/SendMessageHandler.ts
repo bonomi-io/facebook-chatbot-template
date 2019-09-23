@@ -3,8 +3,10 @@ import { ButtonHelper, Button } from "./interfaces/IButton";
 import { OutgoingMessageHelper } from "./MessageHelper";
 import { IOutgoingMessage } from "./interfaces/IOutgoingMessage";
 import { IQuickReply } from "./interfaces/IQuickReply";
+import MyLogger from "../../logger/logging";
 
 const token = process.env.FACEBOOK_TOKEN;
+const logger = new MyLogger(__filename);
 
 export class SendMessageHandler {
     psid: string;
@@ -51,7 +53,8 @@ export class SendMessageHandler {
     }
 
     public async sendMessage(message: IOutgoingMessage) {
-        console.log("Sending message", message);
+        logger.info("Sending message");
+        console.log(message);
         var options = {
             uri: "https://graph.facebook.com/v3.3/me/messages",
             qs: { "access_token": token },
@@ -60,7 +63,7 @@ export class SendMessageHandler {
 
         await request.post(options)
             .then(() => {
-                console.log('Message was sent.');
+                logger.info('Message was sent.');
             })
             .catch((err: Error) => {
                 console.error("Unable to send message:" + err);
