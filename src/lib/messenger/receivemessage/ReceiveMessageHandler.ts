@@ -6,6 +6,10 @@ import { ChatContext } from "../chatmodules/ChatContext";
 import { ChatBlocks } from "../chatmodules/ChatBlocks";
 import { ChatRouter } from "../chatmodules/ChatRouter";
 import { WitAiService } from "../../services/WitAiService";
+import IWitAiResult from "../../services/IWitAiResult";
+import MyLogger from "../../logger/logging";
+
+const logger = new MyLogger(__filename);
 
 export class ReceiveMessageHandler {
 
@@ -26,10 +30,12 @@ export class ReceiveMessageHandler {
     }
 
     static handleMessage = async (context: ChatContext, message: string) => {
-        const entities: any = await WitAiService.getEntities(message);
-        console.log(entities);
-        if (entities.entities.intent && entities.entities.intent[0].value === 'joke') {
+        const entities: IWitAiResult | null = await WitAiService.getEntities(message);
+        logger.info(JSON.stringify(entities!!));
+        if (entities && entities.entities.intent && entities.entities.intent[0].value === 'joke') {
             ChatRouter.redirect(ChatBlocks.RANDOMJOKE, context);
+        } else if (entities && entities.entities.intent && entities.entities.intent[0].value === 'weather') {
+            ChatRouter.redirect(ChatBlocks.WEATHER, context);
         } else {
             ChatRouter.redirect(ChatBlocks.DONTUNDERSTAND, context);
         }
