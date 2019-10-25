@@ -6,10 +6,6 @@ This is a template project for building a chatbot on the Messenger Platform. It 
 
 npm install
 
-## Credits
-
-Created by Bonomi (http://bonomi.io), please feel free to use it!
-
 ## Notes
 
 ### Change page profile text
